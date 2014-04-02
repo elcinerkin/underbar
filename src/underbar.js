@@ -75,27 +75,16 @@ var _ = { };
       if(test(collection[index]))
         returnSet.push(collection[index]);
     });
-    //for(var i=0; i<collection.length; i++) {
-      //if (test(collection[i]))
-        //returnSet.push(collection[i]); }
     return returnSet;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
-    var accepted = _.filter(collection,test);
-    var rejected =[];
-    for(var i=0; i<accepted.length; i++){
-      for(var j=0; j<collection.length; j++){
-        if (accepted[i]===collection[j])
-          collection.splice(j,1);
-      }
-    }
-
-    return collection;
+    return _.filter(collection, function(val) { return !test(val);});
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
   };
+
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) { //[1,2,1,3,1,4]
@@ -114,9 +103,6 @@ var _ = { };
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var newArray =[];
-    //for(var i=0;i<array.length; i++){
-      //newArray.push(iterator(array[i]))
-    //}
     _.each(array, function(value, index){
       newArray.push(iterator(value));
     });
@@ -166,6 +152,9 @@ var _ = { };
       _.each(collection, function(value){ 
         accumulator = iterator(accumulator, value);
       });
+    //  if initilizing true, set initializing to false
+      //  set initial value equal to accumulator
+
       return accumulator;
   };
 
@@ -203,6 +192,7 @@ var _ = { };
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    //return the opposite of every
     var result=false;
     if (typeof iterator === "function"){
       _.each(collection, function(value){
@@ -312,6 +302,7 @@ var _ = { };
       }
    };
   };
+  //use obj key. if no key use func.apply to calc the key
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -336,6 +327,17 @@ var _ = { };
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var copy = array.slice();
+    var shuffled =[];
+    var random;
+    var index = 0;
+    _.each(copy, function(value) {
+      index++;
+      random = Math.random();
+      shuffled[index - 1] = shuffled[random];
+      shuffled[random] = value;
+    });
+    return shuffled;
   };
 
 
